@@ -1,7 +1,6 @@
 const User = require('../models/userModel')
 const asyncHandler = require('express-async-handler')
 const createUser = asyncHandler(async(req,res) =>{
-    console.log(req.body);
     const email = req.body.email
     const findUser = await User.findOne({email})
     if(!findUser){
