@@ -1,6 +1,7 @@
 const { generatedToken } = require("../config/jwtToken");
 const User = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
+
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;
   const findUser = await User.findOne({ email });
@@ -13,6 +14,7 @@ const createUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 });
+
 const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const findUser = await User.findOne({ email });
@@ -29,4 +31,13 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
     throw new Error("invalid credentials");
   }
 });
-module.exports = { createUser, loginUserCtrl };
+
+const getAllUsers = asyncHandler(async(req,res) =>{
+  try {
+  const getUsers = await User.find()
+  res.json(getUsers)
+  } catch (error) {
+    throw new Error(error)
+  }
+})
+module.exports = { createUser, loginUserCtrl, getAllUsers };
