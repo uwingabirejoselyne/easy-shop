@@ -21,4 +21,17 @@ const authMiddleware = asyncHandler(async (req, res,next) => {
     throw new Error(error);
   }
 });
-module.exports = authMiddleware;
+const isAdmin = asyncHandler(async(req,res,next) =>{
+    const {email} = req.user
+    console.log(email);
+    const adminUser = await User.findOne({email})
+    console.log(adminUser);
+    if(adminUser.role !== "admin"){
+        throw new Error('you are not admin')
+    }
+    else{
+        next()
+    }
+
+})
+module.exports = {authMiddleware,isAdmin};

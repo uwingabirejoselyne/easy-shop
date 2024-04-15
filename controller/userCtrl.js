@@ -32,25 +32,27 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   }
 });
 
-const updateUser = asyncHandler(async(req,res) =>{
-const {id} = req.params
-try {
-  const updateUser = await User.findByIdAndUpdate(id,{
-    firstname: req?.body?.firstname,
-    lastname: req?.body?.lastname,
-    email: req?.body?.email,
-    mobile: req?.body?.mobile,
-    password: req?.body?.password,
-  },
-  {
-    new: true
+const updateUser = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  try {
+    const updateUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        firstname: req?.body?.firstname,
+        lastname: req?.body?.lastname,
+        email: req?.body?.email,
+        mobile: req?.body?.mobile,
+        password: req?.body?.password,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(updateUser);
+  } catch (error) {
+    throw new Error(error);
   }
-);
-res.json(updateUser)
-} catch (error) {
-  throw new Error(error)
-}
-})
+});
 
 const getAllUsers = asyncHandler(async (req, res) => {
   try {
@@ -64,11 +66,11 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const getUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    const getaUser = await User.findById(id)
-    
+    const getaUser = await User.findById(id);
+
     res.json({
-      getaUser
-    })
+      getaUser,
+    });
   } catch (error) {
     throw new Error(error);
   }
@@ -77,12 +79,63 @@ const getUser = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    const deleteUser = await User.findByIdAndDelete(id)
+    const deleteUser = await User.findByIdAndDelete(id);
     res.json({
-      deleteUser
-    })
+      deleteUser,
+    });
   } catch (error) {
     throw new Error(error);
   }
 });
-module.exports = { createUser, loginUserCtrl, getAllUsers, getUser,deleteUser,updateUser };
+
+const blockedUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const block = User.findByIdAndUpdate(
+      id,
+      {
+        isBlocked: true,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json({
+      message: "user blocked",
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const unBlocked = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const block = await User.findByIdAndUpdate(
+      id,
+      {
+        isBlocked: false,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(
+      {
+        message : "user is unblocked"
+      }
+    )
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+module.exports = {
+  createUser,
+  loginUserCtrl,
+  getAllUsers,
+  getUser,
+  deleteUser,
+  updateUser,
+  blockedUser,
+  unBlocked
+};
