@@ -2,7 +2,7 @@ const { generatedToken } = require("../config/jwtToken");
 const User = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongoDbId");
-const generateRefreshToken = require("../config/refreshToken");
+const generateRefreshToken  = require("../config/refreshToken");
 
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;
@@ -21,7 +21,9 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const findUser = await User.findOne({ email });
   if (findUser && (await findUser.isPasswordMatched(password))) {
-    const refreshToken = await generateRefreshToken(findUser?._id);
+    console.log(generateRefreshToken);
+    const refreshToken = await generateRefreshToken(findUser._id);
+    
     const updateUser = await User.findByIdAndUpdate(
       findUser.id,
       {
