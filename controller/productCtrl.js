@@ -10,4 +10,15 @@ const createProduct = asyncHandler(async(req,res) =>{
         throw new Error(error)
     }
 })
-module.exports = { createProduct }
+
+const getaProduct = asyncHandler(async(req,res) =>{
+    try {
+        const {id} = req.params
+        const findProduct = await Product.findById(id)
+        res.json(findProduct)
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+})
+module.exports = { createProduct, getaProduct }
