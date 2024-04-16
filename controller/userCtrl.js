@@ -4,6 +4,7 @@ const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongoDbId");
 const generateRefreshToken  = require("../config/refreshToken");
 
+
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;
   const findUser = await User.findOne({ email });
@@ -47,6 +48,12 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
     throw new Error("invalid credentials");
   }
 });
+const handlerToken = asyncHandler(async(req,res) =>{
+const cookie = req.cookies
+if(!cookie?.refreshToken) throw new Error(" No refresh cookies in the token")
+const refreshToken = cookie.refreshToken
+console.log(refreshToken);
+})
 
 const updateUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
@@ -158,4 +165,5 @@ module.exports = {
   updateUser,
   blockedUser,
   unBlocked,
+  handlerToken
 };
