@@ -33,8 +33,7 @@ var productSchema = new mongoose.Schema({
         price: Number
     },
     sold: {
-        type: Number,
-        default:0
+        type: Number
     },
     images:{
         type: Array
@@ -46,14 +45,10 @@ var productSchema = new mongoose.Schema({
     ratings: [
         {
             star: Number,
-            postedBy: {type: mongoose.Schema.Types.ObjectId, ref: "User"}
+            postedBy: {type: mongoose.Schema.Types.ObjectId, ref: "ser"}
         }
     ]
-},
-{
-    timestamps : true
-}
-);
+});
 
 //Export the model
 module.exports = mongoose.model('Product', productSchema);
