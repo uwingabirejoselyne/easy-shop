@@ -22,9 +22,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const findUser = await User.findOne({ email });
   if (findUser && (await findUser.isPasswordMatched(password))) {
-    console.log(generateRefreshToken);
-    const refreshToken = await generateRefreshToken(findUser._id);
-    
+    const refreshToken = await generateRefreshToken(findUser._id);    
     const updateUser = await User.findByIdAndUpdate(
       findUser.id,
       {
@@ -52,7 +50,6 @@ const handlerToken = asyncHandler(async(req,res) =>{
 const cookie = req.cookies
 if(!cookie?.refreshToken) throw new Error(" No refresh cookies in the token")
 const refreshToken = cookie.refreshToken
-console.log(refreshToken);
 })
 
 const updateUser = asyncHandler(async (req, res) => {

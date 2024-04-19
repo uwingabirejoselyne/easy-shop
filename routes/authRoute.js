@@ -13,7 +13,7 @@ const {
 const {authMiddleware,isAdmin} = require('../middlewares/authMiddleware')
 const router = express.Router();
 router.post("/register", createUser);
-router.post("/login", loginUserCtrl);
+router.post("/login",isAdmin,loginUserCtrl);
 router.get("/all-users", getAllUsers);
 router.get("/refresh", handlerToken)
 router.get("/:id",authMiddleware,isAdmin, getUser)
