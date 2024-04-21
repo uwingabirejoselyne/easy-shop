@@ -56,6 +56,7 @@ const getaProduct = asyncHandler(async(req,res) =>{
 })
 
 const getAllProduct = asyncHandler(async(req,res) =>{
+    console.log(req.query);
     try {
         const allProduct = await Product.find()
         res.json(allProduct)

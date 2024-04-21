@@ -20,9 +20,11 @@ const createUser = asyncHandler(async (req, res) => {
 
 const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
   const findUser = await User.findOne({ email });
+  console.log(findUser.password );
   if (findUser && (await findUser.isPasswordMatched(password))) {
-    const refreshToken = await generateRefreshToken(findUser._id);    
+    const refreshToken = await generateRefreshToken(findUser._id); 
     const updateUser = await User.findByIdAndUpdate(
       findUser.id,
       {
