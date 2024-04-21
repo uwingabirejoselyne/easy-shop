@@ -24,6 +24,7 @@ var productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
+    required:true
   },
   brand: {
     type: String,
@@ -48,7 +49,6 @@ var productSchema = new mongoose.Schema({
   ratings: [
     {
       star: Number,
-    //   postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "ser" },
     },
   ],
 });

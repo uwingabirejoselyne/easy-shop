@@ -16,7 +16,7 @@ app.use(morgan("dev"))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api/user", authRoute);
-app.use("/api/user/product", productRoute);
+app.use("/api/product", productRoute);
 app.use(notFound);
 app.use(errorHandler);
 app.use(cookieParser());
