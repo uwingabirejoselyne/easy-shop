@@ -73,8 +73,16 @@ const getAllProduct = asyncHandler(async(req,res) =>{
         else{
             query = query.sort("-createdAt")
         }
+
+        //limiting the fields
+        if(req.query.fields){
+            const fields = req.query.fields.split(",").join(" ")
+            query = query.select(fields)
+        }
+        else{
+            query = query.select("__v")
+        }
         const product = await query
-        const allProduct = await Product.find()
         res.json(product)
     } catch (error) {
         throw new Error(error)
