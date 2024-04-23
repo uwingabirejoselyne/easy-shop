@@ -8,12 +8,14 @@ const {
   updateUser,
   blockedUser,
   unBlocked,
-  handlerToken
+  handlerToken,
+  updatePassword
 } = require("../controller/userCtrl");
 const {authMiddleware,isAdmin} = require('../middlewares/authMiddleware')
 const router = express.Router();
 router.post("/register", createUser);
 router.post("/login",isAdmin,loginUserCtrl);
+router.put("/password",authMiddleware,updatePassword)
 router.get("/all-users", getAllUsers);
 router.get("/refresh", handlerToken)
 router.get("/:id",authMiddleware,isAdmin, getUser)
