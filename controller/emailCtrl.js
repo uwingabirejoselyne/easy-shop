@@ -3,12 +3,12 @@ const asyncHandler = require('express-async-handler')
 
 const sendEmail = asyncHandler(async(data,req,res) =>{
     let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
+        host: "smtp.gmail.com",
         port: 587,
         secure: false, // Use `true` for port 465, `false` for all other ports
         auth: {
-          user: "maddison53@ethereal.email",
-          pass: "jn7jnAPss4f63QBp6D",
+          user: process.env.MAIL_ID ,
+          pass: process.env.MP
         },
       });
       
@@ -17,10 +17,10 @@ const sendEmail = asyncHandler(async(data,req,res) =>{
         // send mail with defined transport object
         let info = await transporter.sendMail({
           from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
-          to: "bar@example.com, baz@example.com", // list of receivers
-          subject: "Hello ✔", // Subject line
-          text: "Hello world?", // plain text body
-          html: "<b>Hello world?</b>", // html body
+          to: data.to, // list of receivers
+          subject: data.subject, // Subject line
+          text: data.from, // plain text body
+          html: data.html, // html body
         });
       
         console.log("Message sent: %s", info.messageId);
