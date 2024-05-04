@@ -5,6 +5,7 @@ const validateMongoDbId = require("../utils/validateMongoDbId");
 const crypto = require('crypto')
 const generateRefreshToken  = require("../config/refreshToken");
 const sendEmail = require("./emailCtrl");
+const { log } = require("console");
 
 
 const createUser = asyncHandler(async (req, res) => {
@@ -198,11 +199,12 @@ const forgetPasswordToken = asyncHandler(async(req,res)=>{
 const resetPassword = asyncHandler(async(req,res)=>{
 const {password} = req.body
 const {token} = req.params
-const hashedToken = crypto.createHash('sha256').update(token).digest("binary")
+const hashedToken = crypto.createHash('sha256').update(token).digest("hex")
 const user = await User.findOne({
-  passwordResetToken: handlerToken,
+  passwordResetToken: hashedToken,
   passwordResetExpires: {$gt:Date.now()}
 })
+console.log(user)
 if(!user)throw new Error('Token is expired please try again later')
 user.password = password
 user.passwordResetToken = undefined
