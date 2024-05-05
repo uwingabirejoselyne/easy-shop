@@ -204,7 +204,6 @@ const user = await User.findOne({
   passwordResetToken: hashedToken,
   passwordResetExpires: {$gt:Date.now()}
 })
-console.log(user)
 if(!user)throw new Error('Token is expired please try again later')
 user.password = password
 user.passwordResetToken = undefined
