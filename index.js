@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api/user", authRoute);
 app.use("/api/product", productRoute);
-app.use("/api/blog", productRoute);
+app.use("/api/blog", blogRoute);
 app.use(notFound);
 app.use(errorHandler);
 app.use(cookieParser());
