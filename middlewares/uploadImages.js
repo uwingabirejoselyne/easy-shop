@@ -38,4 +38,4 @@ const productImgResize = async(req,res,next)=>{
 next()
 }
 
-module.exports = {uploadPhoto}
+module.exports = {uploadPhoto,productImgResize}
