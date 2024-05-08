@@ -1,4 +1,6 @@
 const Product = require('../models/ProductModel')
+const validateMongoDbId = require("../utils/validateMongoDbId");
+const cloudinaryUploadImg = require("../utils/cloudinary")
 const slugify = require('slugify')
 const asyncHandler = require('express-async-handler')
 
@@ -99,4 +101,32 @@ const getAllProduct = asyncHandler(async(req,res) =>{
         
     }
 })
-module.exports = { createProduct, getaProduct,getAllProduct,updateProduct,deleteProduct }
+
+const uploadImages = asyncHandler(async (req, res) => {
+    const {id} = req.params
+    validateMongoDbId(id)
+    try {
+        const uploader = (path) =>cloudinaryUploadImg(path,"images")
+        const urls = []
+        const files = req.files
+        for(const file of files){
+            const{path} = file
+            const newPath = await uploader(path)
+            console.log(newPath);
+            urls.push(newPath)
+        }
+        const findProduct = await Product.findByIdAndUpdate(id,{
+            images: urls.map((file) =>{
+                return file;
+            })
+        },{
+            new:true
+        })
+        res.json(findProduct)
+    } catch (error) {
+        console.log(error);
+        throw new Error(error)
+    }
+});
+
+module.exports = { createProduct, getaProduct,getAllProduct,updateProduct,deleteProduct,uploadImages }
