@@ -18,7 +18,7 @@ const createBlog = asyncHandler(async(req,res)=>{
 
 const getBlog = asyncHandler(async(req,res)=>{
     try {
-        const getBlog = Blog.find()
+        const getBlog =await Blog.find()
         res.json(getBlog)
     } catch (error) {
         throw new Error(error)
