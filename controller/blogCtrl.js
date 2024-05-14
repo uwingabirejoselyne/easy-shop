@@ -47,4 +47,15 @@ const updateBlog = asyncHandler(async(req,res)=>{
         throw new Error(error)
     }
 })
-module.exports={createBlog,getAllBlog,getBlog,updateBlog}
+
+const deleteBlog = asyncHandler(async(req,res)=>{
+    const {id} = req.params
+    try {
+        const deleteBlog = await Blog.findByIdAndDelete(id)
+        res.json(u=deleteBlog)
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+module.exports={createBlog,getAllBlog,getBlog,updateBlog,deleteBlog}
