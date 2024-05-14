@@ -35,4 +35,16 @@ const getBlog = asyncHandler(async(req,res)=>{
     }
 
 })
-module.exports={createBlog,getAllBlog,getBlog}
+const updateBlog = asyncHandler(async(req,res)=>{
+    const {id} = req.params
+    try {
+        const updateBlog = await Blog.findByIdAndUpdate(id,req.body,{
+            new:true
+        })
+        res.json(updateBlog)
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+module.exports={createBlog,getAllBlog,getBlog,updateBlog}
