@@ -1,6 +1,8 @@
 const Blog = require('../models/blogModel')
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
+const validateMongoDbId = require('../utils/validateMongoDbId')
+const {authmiddleware,isAdmin} = require('../middlewares/authMiddleware')
 
 const createBlog = asyncHandler(async(req,res)=>{
     try {
@@ -64,6 +66,24 @@ const deleteBlog = asyncHandler(async(req,res)=>{
         
     } catch (error) {
         throw new Error(error)
+    }
+})
+
+const likeBlog = asyncHandler(async(req,res) =>{
+    const blogId = req.body
+    validateMongoDbId(blogId)
+
+    const blog = await Blog.findById(blogId)
+    const loginUserId = req?.user?._id
+    const isLiked = blog?.isLiked
+    const alreadyDisliked = blog?.disLikes.find(
+        (userId = userId.toString === loginUserId.toString())
+    );
+    if(alreadyDisliked){
+        const blog = await Blog.findOneAndUpdate(blogId, {
+            $pull: {disLikes:loginUserId},
+            isDisliked:false
+        })
     }
 })
 module.exports={createBlog,getAllBlog,getBlog,updateBlog,deleteBlog}
