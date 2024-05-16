@@ -29,7 +29,15 @@ const getBlog = asyncHandler(async(req,res)=>{
     const {id} = req.params
     try {
         const getBlog =await Blog.findById(id)
-        res.json(getBlog)
+       const updateNumViews= await Blog.findByIdAndUpdate(
+            id,
+            {
+                $inc: {numViews:1}
+            },
+            {
+              new:true}
+        )
+        res.json(updateNumViews)
     } catch (error) {
         throw new Error(error)
     }
